@@ -9,3 +9,67 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id          Int           @id @default(autoincrement())
+  username    String        @unique
+  senha       String
+  credenciais Credenciais[]
+  notas  Notas[]
+  cards Cards[]
+
+  @@map("user")
+}
+
+model Credenciais {
+  id     Int    @id @default(autoincrement())
+  nome   String
+  senha  String
+  userId Int
+
+  User   User   @relation(fields: [userId], references: [id])
+
+  @@unique([userId, nome])
+
+  @@map("credenciais")
+
+}
+
+model Notas {
+   id     Int    @id @default(autoincrement())
+   nome   String
+   texto  String
+   userId  Int
+
+   User  User   @relation(fields: [userId],references: [id])
+
+@@unique([userId, nome])
+
+@@map("notas")
+
+}
+
+model Cards {
+  id     Int    @id @default(autoincrement())
+  userId Int
+  nome   String
+  nomeImp String
+  numero  Int
+  cvv  Int
+  dataExpiracao String @db.VarChar(5)
+  virtual Boolean @default(false)
+  credito Boolean @default(false)
+  debito  Boolean @default(false)
+ 
+  User  User   @relation(fields: [userId],references: [id])
+
+  @@unique([userId, nome])
+
+  @@map("cards")
+}
+
+
+
+
+
+
