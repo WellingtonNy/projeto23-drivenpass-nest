@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id          Int           @id @default(autoincrement())
-  username    String        @unique
+  email       String        @unique
   senha       String
   credenciais Credenciais[]
   notas  Notas[]
@@ -67,6 +67,7 @@ model Cards {
 
   @@map("cards")
 }
+
 
 
 
